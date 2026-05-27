@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Slider / Carousel</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial, sans-serif;
+      background:#f4f4f4;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .slider{
+      width:700px;
+      height:400px;
+      position:relative;
+      overflow:hidden;
+      border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+      background:white;
+    }
+
+    .slides{
+      display:flex;
+      width:100%;
+      height:100%;
+      transition:transform 0.5s ease-in-out;
+    }
+
+    .slides img{
+      width:700px;
+      height:400px;
+      object-fit:cover;
+    }
+
+    /* Buttons */
+    .btn{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      background:rgba(0,0,0,0.5);
+      color:white;
+      border:none;
+      padding:12px 18px;
+      cursor:pointer;
+      font-size:22px;
+      border-radius:50%;
+    }
+
+    .btn:hover{
+      background:black;
+    }
+
+    .prev{
+      left:15px;
+    }
+
+    .next{
+      right:15px;
+    }
+
+    /* Dots */
+    .dots{
+      position:absolute;
+      bottom:15px;
+      width:100%;
+      text-align:center;
+    }
+
+    .dot{
+      height:12px;
+      width:12px;
+      margin:0 5px;
+      background:#bbb;
+      border-radius:50%;
+      display:inline-block;
+      cursor:pointer;
+    }
+
+    .active{
+      background:#333;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="slider">
+
+    <div class="slides" id="slides">
+      <img src="https://picsum.photos/id/1015/700/400" alt="Image 1">
+      <img src="https://picsum.photos/id/1016/700/400" alt="Image 2">
+      <img src="https://picsum.photos/id/1018/700/400" alt="Image 3">
+      <img src="https://picsum.photos/id/1020/700/400" alt="Image 4">
+    </div>
+
+    <!-- Previous Button -->
+    <button class="btn prev" onclick="prevSlide()">❮</button>
+
+    <!-- Next Button -->
+    <button class="btn next" onclick="nextSlide()">❯</button>
+
+    <!-- Dots -->
+    <div class="dots">
+      <span class="dot active" onclick="currentSlide(0)"></span>
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+  </div>
+
+  <script>
+    const slides = document.getElementById("slides");
+    const dots = document.querySelectorAll(".dot");
+
+    let index = 0;
+    const totalSlides = 4;
+
+    function showSlide(i){
+      index = i;
+
+      if(index >= totalSlides){
+        index = 0;
+      }
+
+      if(index < 0){
+        index = totalSlides - 1;
+      }
+
+      slides.style.transform = `translateX(${-700 * index}px)`;
+
+      dots.forEach(dot => dot.classList.remove("active"));
+      dots[index].classList.add("active");
+    }
+
+    function nextSlide(){
+      showSlide(index + 1);
+    }
+
+    function prevSlide(){
+      showSlide(index - 1);
+    }
+
+    function currentSlide(i){
+      showSlide(i);
+    }
+
+    // Auto Slide
+    setInterval(() => {
+      nextSlide();
+    }, 3000);
+  </script>
+
+</body>
+</html>
